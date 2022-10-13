@@ -1,0 +1,60 @@
+PS C:\Windows\system32> cd ..\..\users\andre\kafka
+PS C:\users\andre\kafka> ls
+
+    Каталог: C:\users\andre\kafka
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        10.10.2022     11:34           1004 docker-compose.yml
+-a----        08.10.2022     15:29              0 Новый текстовый документ.txt
+
+PS C:\users\andre\kafka> docker-compose up -d
+[+] Running 3/3
+ - Network kafka_default  Created                                                                               0.7s
+ - Container zookeeper    Started                                                                               1.1s
+ - Container broker       Started                                                                               2.2s
+
+PS C:\users\andre\kafka> docker ps
+CONTAINER ID   IMAGE                             COMMAND                  CREATED      STATUS          PORTS                          NAMES
+f8a8e76e7711   confluentinc/cp-kafka:7.0.1       "/etc/confluent/dock…"   2 days ago   Up 3 minutes    0.0.0.0:9092->9092/tcp         broker
+ce896429c37e   confluentinc/cp-zookeeper:7.0.1   "/etc/confluent/dock…"   2 days ago   Up 11 minutes   2181/tcp, 2888/tcp, 3888/tcp   zookeeper
+
+
+PS C:\users\andre\kafka> docker exec broker kafka-topics --bootstrap-server broker:9092 --create --topic new_topic
+WARNING: Due to limitations in metric names, topics with a period ('.') or underscore ('_') could collide. To avoid issues it is best to use either, but not both.
+Created topic new_topic.
+
+PS C:\users\andre\kafka> docker exec --interactive --tty broker kafka-console-producer --bootstrap-server broker:9092 --topic new_topic
+>Today I use kafka
+>it's ok
+>^C
+PS C:\users\andre\kafka> docker exec --interactive --tty broker kafka-console-consumer --bootstrap-server broker:9092 --topic new_topic --from-beginning
+Today I use kafka
+it's ok
+
+^CProcessed a total of 2 messages
+PS C:\users\andre\kafka> docker exec --interactive --tty broker kafka-console-producer --bootstrap-server broker:9092 --topic new_topic
+>Second text
+>^C
+PS C:\users\andre\kafka> docker exec --interactive --tty broker kafka-console-producer --bootstrap-server broker:9092 --topic new_topic
+>Therd text
+>Hi
+>^C
+PS C:\users\andre\kafka> docker exec --interactive --tty broker kafka-console-consumer --bootstrap-server broker:9092 --topic new_topic --from-beginning
+Today I use kafka
+it's ok
+Second text
+Therd text
+Hi
+^CProcessed a total of 5 messages
+
+
+PS C:\users\andre\kafka> docker-compose down
+[+] Running 3/3
+ - Container broker       Removed                                                                               5.6s
+ - Container zookeeper    Removed                                                                               0.7s
+ - Network kafka_default  Removed                                                                               0.5s
+PS C:\users\andre\kafka> docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS C:\users\andre\kafka>

@@ -116,7 +116,11 @@ def parse_hh(title='python разработчик',n_pages=100):
             
     return data
             
-parse_hh()
+data = parse_hh()
+
+data2=[]
+with open('data.json','r') as file:
+    data2=json.load(file)
 
 
 def is_palindrome(s:str='taco cat'):
