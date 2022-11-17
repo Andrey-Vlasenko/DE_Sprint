@@ -158,20 +158,21 @@ SUM(B_marks) AS B_marks,
 SUM(C_marks) AS C_marks,
 SUM(D_marks) AS D_marks,
 SUM(E_marks) AS E_marks,
-AVG(Bonus)  AS Avg_Bonus,
-SUM(Salary+Bonus*Salary)  AS OldSalary_and_Bonus,
+AVG(Bonus/100.)  AS Avg_Bonus_rate,
+SUM(Bonus/100.*Salary)  AS Bonus_in_cash,
+SUM(Salary+Bonus/100.*Salary)  AS OldSalary_and_Bonus,
 SUM(Salary* (CASE WHEN Bonus/100. > 1.2 THEN 1.2 
 	 WHEN Bonus/100. BETWEEN 1 AND 1.2 THEN 1.1
-	 ELSE 1.0 END) + Bonus*Salary) AS NewSalary_and_Bonus,
+	 ELSE 1.0 END) + Bonus/100.*Salary) AS NewSalary_and_Bonus,
 SUM(Salary* (CASE WHEN Bonus/100. > 1.2 THEN 1.2 
 	 WHEN Bonus/100. BETWEEN 1 AND 1.2 THEN 1.1
-	 ELSE 1.0 END) + Bonus*Salary) / SUM(Salary+Bonus*Salary) AS rate
+	 ELSE 1.0 END) + Bonus/100.*Salary) / SUM(Salary+Bonus/100.*Salary) AS rate
 FROM Divisions AS d
 LEFT JOIN Employees AS e
 ON d.id=e.division_id
 LEFT JOIN Bonuses as b
 ON b.Emp_Id=e.id
 GROUP BY DivisionName,d.LastName
-ORDER BY AVG(Bonus) DESC; 
+ORDER BY AVG(Bonus) DESC;
 
 
