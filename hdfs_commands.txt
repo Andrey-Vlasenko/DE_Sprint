@@ -1,0 +1,45 @@
+[cloudera@quickstart ~]$ hdfs dfs -copyFromLocal /home/cloudera/Documents/vim-1.txt /user/cloudera
+[cloudera@quickstart ~]$ hdfs dfs -ls
+Found 1 items
+-rw-r--r--   1 cloudera cloudera     736519 2022-11-17 03:48 vim-1.txt
+[cloudera@quickstart ~]$ hdfs dfs -copyFromLocal /home/cloudera/Documents/vim-2.txt /user/cloudera
+[cloudera@quickstart ~]$ hdfs dfs -copyFromLocal /home/cloudera/Documents/vim-3.txt /user/cloudera
+[cloudera@quickstart ~]$ hdfs dfs -copyFromLocal /home/cloudera/Documents/vim-4.txt /user/cloudera
+[cloudera@quickstart ~]$ hdfs dfs -ls
+Found 4 items
+-rw-r--r--   1 cloudera cloudera     736519 2022-11-17 03:48 vim-1.txt
+-rw-r--r--   1 cloudera cloudera     770324 2022-11-17 03:52 vim-2.txt
+-rw-r--r--   1 cloudera cloudera     843205 2022-11-17 03:52 vim-3.txt
+-rw-r--r--   1 cloudera cloudera     697960 2022-11-17 03:52 vim-4.txt
+[cloudera@quickstart ~]$ hdfs dfs -getmerge -nl vim-1.txt vim-2.txt vim-3.txt vim-4.txt output-2.txt
+[cloudera@quickstart ~]$ hdfs dfs -ls
+Found 4 items
+-rw-r--r--   1 cloudera cloudera     736519 2022-11-17 03:48 vim-1.txt
+-rw-r--r--   1 cloudera cloudera     770324 2022-11-17 03:52 vim-2.txt
+-rw-r--r--   1 cloudera cloudera     843205 2022-11-17 03:52 vim-3.txt
+-rw-r--r--   1 cloudera cloudera     697960 2022-11-17 03:52 vim-4.txt
+[cloudera@quickstart ~]$ hdfs dfs -copyFromLocal /home/cloudera/output-2.txt /user/cloudera
+[cloudera@quickstart ~]$ hdfs dfs -ls
+Found 5 items
+-rw-r--r--   1 cloudera cloudera    3048012 2022-11-17 05:13 output-2.txt
+-rw-r--r--   1 cloudera cloudera     736519 2022-11-17 03:48 vim-1.txt
+-rw-r--r--   1 cloudera cloudera     770324 2022-11-17 03:52 vim-2.txt
+-rw-r--r--   1 cloudera cloudera     843205 2022-11-17 03:52 vim-3.txt
+-rw-r--r--   1 cloudera cloudera     697960 2022-11-17 03:52 vim-4.txt
+[cloudera@quickstart ~]$  hdfs dfs -chmod 764 /user/cloudera/output-2.txt
+[cloudera@quickstart ~]$ hdfs dfs -ls
+Found 5 items
+-rwxrw-r--   1 cloudera cloudera    3048012 2022-11-17 05:13 output-2.txt
+-rw-r--r--   1 cloudera cloudera     736519 2022-11-17 03:48 vim-1.txt
+-rw-r--r--   1 cloudera cloudera     770324 2022-11-17 03:52 vim-2.txt
+-rw-r--r--   1 cloudera cloudera     843205 2022-11-17 03:52 vim-3.txt
+-rw-r--r--   1 cloudera cloudera     697960 2022-11-17 03:52 vim-4.txt
+[cloudera@quickstart ~]$ hdfs dfs -du -h output-2.txt
+2.9 M  2.9 M  output-2.txt
+[cloudera@quickstart ~]$ hdfs dfs -setrep 2 output-2.txt
+Replication 2 set: output-2.txt
+[cloudera@quickstart ~]$ hdfs dfs -du -h output-2.txt
+2.9 M  5.8 M  output-2.txt
+[cloudera@quickstart ~]$ hdfs dfs -cat output-2.txt | wc -l
+10276
+[cloudera@quickstart ~]$ 
