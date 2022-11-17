@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS Divisions;
 DROP TYPE IF EXISTS grade_type;
 DROP TYPE IF EXISTS score_type;
 
-CREATE TYPE  grade_type AS ENUM ('junior','middle','senior');
+CREATE TYPE  grade_type AS ENUM ('junior','middle','senior','lead');
 CREATE TYPE  score_type AS ENUM ('A','B','C','D','E');
 
 CREATE TABLE employees
